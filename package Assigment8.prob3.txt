@@ -1,0 +1,10 @@
+package Assigment8.prob3
+
+public class Application {
+
+	public static void main(String[] args) {
+		
+
+	}
+
+}

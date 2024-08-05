@@ -1,0 +1,56 @@
+package Assigment8.problem1;
+
+import java.time.LocalDate;
+import java.time.Period;
+
+public class MortgageCalculator {
+
+    private static final double PARTNER_INCOME_DISCOUNT = 0.94;
+
+    public double computeMaxMortgage(int yearOfBirth, int month, int day, double monthlyIncome, boolean married, double monthlyIncomePartner, String profession) {
+        int age = calculateAge(yearOfBirth, month, day);
+        if (age < 18) {
+            return 0;
+        }
+
+        double totalIncome = married ? monthlyIncome + monthlyIncomePartner * PARTNER_INCOME_DISCOUNT : monthlyIncome;
+
+        return calculateMortgage(totalIncome, profession);
+    }
+
+    private int calculateAge(int yearOfBirth, int month, int day) {
+        LocalDate today = LocalDate.now();
+        LocalDate birthday = LocalDate.of(yearOfBirth, month, day);
+        Period period = Period.between(birthday, today);
+        return period.getYears();
+    }
+
+    private double calculateMortgage(double totalIncome, String profession) {
+        if (totalIncome >= 2000 && totalIncome < 3000) {
+            return getMortgageForIncomeRange(profession, 160000, 120000, 220000);
+        } else if (totalIncome >= 3000 && totalIncome < 5000) {
+            return getMortgageForIncomeRange(profession, 180000, 140000, 250000);
+        } else if (totalIncome >= 5000) {
+            return getMortgageForIncomeRange(profession, 220000, 160000, 280000);
+        }
+        return 0;
+    }
+
+    private double getMortgageForIncomeRange(String profession, double devArchScrumMortgage, double testerSysAdminTechWriterMortgage, double deptHeadProfMortgage) {
+        switch (profession) {
+            case "Developer":
+            case "Architect":
+            case "Scrum master":
+                return devArchScrumMortgage;
+            case "Tester":
+            case "System Administrator":
+            case "Technical writer":
+                return testerSysAdminTechWriterMortgage;
+            case "Department head":
+            case "Professor":
+                return deptHeadProfMortgage;
+            default:
+                return 0;
+        }
+    }
+}
